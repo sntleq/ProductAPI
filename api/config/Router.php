@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__ . '/../controllers/DepartmentController.php';
+
+require_once __DIR__ . '/../controllers/ProductController.php';
 
 class Router {
     private array $routes = [];
@@ -11,17 +12,7 @@ class Router {
     private function defineRoutes() {
         $this->routes = [
             'GET' => [
-                'department' => [DepartmentController::class, 'GetAllDepartment'],
-                'department/{id}' => [DepartmentController::class, 'GetDepartmentById'],
-            ],
-            'POST' => [
-                'department' => [DepartmentController::class, 'AddDepartment'],
-            ],
-            'PUT' => [
-                'department/{id}' => [DepartmentController::class, 'UpdateDepartment'],
-            ],
-            'DELETE' => [
-                'department/{id}' => [DepartmentController::class, 'DeleteDepartment'],
+                'Product/{id}' => [ProductController::class, 'GetProductById'],
             ],
         ];
     }
