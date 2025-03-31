@@ -1,6 +1,6 @@
 <?php
-require_once "config/Database.php";
-require_once "repositories\interface\IProductRepository.php";
+require_once __DIR__ . "/../config/Database.php";
+require_once "interface/IProductRepository.php";
 
 class ProductRepository implements IProductRepository {
     private $databaseConnection;
@@ -13,12 +13,33 @@ class ProductRepository implements IProductRepository {
 
     public function GetAllProduct() 
     {
-        
+        $query = "SELECT 
+                    Product.ProductId
+                    , Product.ProductName
+                    , ProductDetails.ProductPrice
+                    , ProductDetails.ProductDate
+                   FROM Product 
+                   INNER JOIN ProductDetails ON ProductDetails.ProductId = Product.ProductId";
+
+        return $this->ExecuteSqlQuery($query, []);
     }
 
     public function GetLatestPriceOfTheProduct() 
     {
+        $query = "SELECT 
+                    Product.ProductId
+                    , Product.ProductName
+                    , ProductDetails.ProductPrice
+                    , ProductDetails.ProductDate
+                   FROM Product 
+                   INNER JOIN ProductDetails ON ProductDetails.ProductId = Product.ProductId
+                   WHERE ProductDetails.ProductDate = (
+                        SELECT MAX(ProductDate)
+                        FROM ProductDetails
+                        WHERE ProductId = Product.ProductId
+                   )";
 
+        return $this->ExecuteSqlQuery($query, []);
     }
 
     public function GetProductById($productId) 
